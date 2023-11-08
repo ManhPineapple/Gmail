@@ -3,9 +3,8 @@ package com.example.gmail
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import android.view.Menu
-import android.widget.ArrayAdapter
-import android.widget.ListView
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
 
 class Homepage : AppCompatActivity() {
 
@@ -24,7 +23,8 @@ class Homepage : AppCompatActivity() {
 
         val adapter = CustomAdapter(this, emails)
 
-        val listView: ListView = findViewById(R.id.email_list_view)
-        listView.adapter = adapter
+        val recyclerView: RecyclerView = findViewById(R.id.email_recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
     }
 }

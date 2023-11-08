@@ -4,9 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 
 data class Email(
     val name: String,
@@ -15,33 +14,43 @@ data class Email(
     val content: String
 )
 
+class CustomAdapter(private val context: Context, private val emails: ArrayList<Email>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
-class CustomAdapter(context: Context, private val emails: ArrayList<Email>) : ArrayAdapter<Email>(context, 0, emails) {
+    inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
+        val avatar: TextView = listItemView.findViewById(R.id.avatar)
+        val nameTextView: TextView = listItemView.findViewById(R.id.name)
+        val timeTextView: TextView = listItemView.findViewById(R.id.time)
+        val titleTextView: TextView = listItemView.findViewById(R.id.title)
+        val contentTextView: TextView = listItemView.findViewById(R.id.content)
+    }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var listItemView = convertView
-        if (listItemView == null) {
-            listItemView = LayoutInflater.from(context).inflate(R.layout.list_item_layout, parent, false)
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val context = parent.context
+        val inflater = LayoutInflater.from(context)
+        val emailView = inflater.inflate(R.layout.list_item_layout, parent, false)
+        return ViewHolder(emailView)
+    }
 
-        val currentEmail = getItem(position)
+    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+        val email: Email = emails[position]
 
-        val avatar = listItemView!!.findViewById<TextView>(R.id.avatar)
-        // Set the image and text in the ImageView
-        avatar.text = currentEmail!!.name[0].toString();
+        val avatar = viewHolder.avatar
+        avatar.text = email.name[0].toString()
 
-        val nameTextView = listItemView.findViewById<TextView>(R.id.name)
-        nameTextView.text = currentEmail?.name
+        val nameTextView = viewHolder.nameTextView
+        nameTextView.text = email.name
 
-        val timeTextView = listItemView.findViewById<TextView>(R.id.time)
-        timeTextView.text = currentEmail?.time
+        val timeTextView = viewHolder.timeTextView
+        timeTextView.text = email.time
 
-        val titleTextView = listItemView.findViewById<TextView>(R.id.title)
-        titleTextView.text = currentEmail?.title
+        val titleTextView = viewHolder.titleTextView
+        titleTextView.text = email.title
 
-        val contentTextView = listItemView.findViewById<TextView>(R.id.content)
-        contentTextView.text = currentEmail?.content
+        val contentTextView = viewHolder.contentTextView
+        contentTextView.text = email.content
+    }
 
-        return listItemView
+    override fun getItemCount(): Int {
+        return emails.size
     }
 }

@@ -52,8 +52,8 @@
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
 
-        <ListView
-            android:id="@+id/email_list_view"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/email_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
